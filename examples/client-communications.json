@@ -1,0 +1,27 @@
+[
+  {
+    "source": "call",
+    "speaker": "Client Sponsor",
+    "timestamp": "2026-04-14T15:00:00Z",
+    "body": "We are ready for proposal if pricing is clarified and the rollout plan is concrete."
+  },
+  {
+    "source": "email",
+    "speaker": "Client Operations Lead",
+    "timestamp": "2026-04-14T18:20:00Z",
+    "body": "The integration is blocked until we understand the SSO and API mapping requirements."
+  },
+  {
+    "source": "notes",
+    "speaker": "Account Owner",
+    "timestamp": "2026-04-15T09:00:00Z",
+    "body": "They asked for customer proof, launch messaging support, and a clearer onboarding handoff."
+  },
+  {
+    "source": "email",
+    "speaker": "Client Sponsor",
+    "timestamp": "2026-04-15T12:15:00Z",
+    "body": "Feedback: the first onboarding pass felt too generic for how our team actually works."
+  }
+]
+
