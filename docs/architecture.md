@@ -8,6 +8,7 @@ This public mirror shows a client-communication operations loop:
 4. Convert signals into action notes and owner-team handoffs.
 5. Recommend CRM status changes without writing directly by default.
 6. Capture recurring feedback as process improvements.
+7. Build destination-specific write plans for CRM, Gong, and database sinks.
 
 The private version can be wired to Slack, Gmail, call transcripts, Notion, Airtable, Attio, Salesforce, HubSpot, or another CRM. This public version keeps the same mapping logic but uses local JSON and Markdown so reviewers can inspect the behavior without credentials.
 
@@ -21,11 +22,14 @@ flowchart LR
   C --> E["Team handoffs"]
   C --> F["CRM status recommendation"]
   C --> G["Feedback loop"]
+  F --> J["Integration write plan"]
   E --> H["Sales / marketing / engineering / CS"]
   F --> I["CRM review gate"]
+  J --> K["Salesforce / HubSpot / Attio / Gong / Warehouse"]
 ```
 
 ## Write Boundary
 
 The demo uses `recommendation_only` CRM write mode. That means the system can say what should change, why, and which evidence supports it, but it does not mutate CRM state without a later approved writer.
 
+See `integration-contract.md` for destination identification, object mapping, field mapping, naming conventions, and review-gate behavior.

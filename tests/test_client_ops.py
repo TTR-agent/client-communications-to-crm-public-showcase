@@ -1,6 +1,7 @@
 from src.client_ops.analyze import analyze_threads
+from src.client_ops.integrations import build_integration_plan, normalize_system_name
 from src.client_ops.normalize import normalize_communications
-from src.client_ops.render import render_action_brief, render_crm_updates
+from src.client_ops.render import render_action_brief, render_crm_updates, render_integration_plan
 from src.client_ops.route import route_handoffs
 
 
@@ -95,3 +96,42 @@ def test_render_outputs_action_notes_and_crm_updates():
     assert "## Team Handoffs" in action_brief
     assert "# CRM Status Change Recommendations" in crm_updates
     assert "proposal_requested" in crm_updates
+
+
+def test_integration_plan_maps_notes_to_crm_gong_and_database_payloads():
+    communications = normalize_communications(
+        [
+            {"source": "call", "speaker": "Client", "body": "Ready for proposal after pricing."},
+            {"source": "email", "speaker": "Client", "body": "Need customer proof before legal review."},
+            {"source": "notes", "speaker": "Account Owner", "body": "API mapping is blocked by SSO requirements."},
+        ]
+    )
+    analysis = analyze_threads(communications)
+
+    plan = build_integration_plan(analysis, communications)
+
+    destination_names = [item["destination"] for item in plan["writes"]]
+    assert "salesforce" in destination_names
+    assert "hubspot" in destination_names
+    assert "gong" in destination_names
+    assert "warehouse" in destination_names
+    assert plan["naming_conventions"]["crm_status"] == "snake_case"
+    assert plan["writes"][0]["operation"] == "upsert"
+    assert any(write["object"] == "call_transcript" for write in plan["writes"])
+
+
+def test_system_name_normalization_and_integration_render():
+    assert normalize_system_name("Sales Force") == "salesforce"
+    assert normalize_system_name("Gong.io") == "gong"
+    assert normalize_system_name("Client Ops DB") == "warehouse"
+
+    analysis = analyze_threads(
+        normalize_communications(
+            [{"source": "call", "speaker": "Client", "body": "Ready for proposal after pricing."}]
+        )
+    )
+    rendered = render_integration_plan(build_integration_plan(analysis, []))
+
+    assert "# Integration Routing Plan" in rendered
+    assert "salesforce" in rendered
+    assert "external_id" in rendered

@@ -8,6 +8,7 @@ This repo is a sanitized public mirror of a private AI workflow. It preserves th
 - Extracting client asks, blockers, buying signals, and feedback loops.
 - Routing next steps to sales, marketing, engineering, and customer success.
 - Recommending CRM status changes with evidence and a write boundary.
+- Building destination-specific integration payloads for Salesforce, HubSpot, Attio, Gong, generic CRM, and warehouse/database sinks.
 - Keeping human review visible before any CRM mutation.
 
 ## Workflow
@@ -17,7 +18,8 @@ This repo is a sanitized public mirror of a private AI workflow. It preserves th
 3. **Signal extraction:** identify pricing/proposal asks, technical blockers, proof needs, onboarding feedback, and launch/messaging needs.
 4. **Actioning:** create next steps with owner-team routing.
 5. **CRM recommendation:** suggest status changes and field updates without writing directly by default.
-6. **Feedback loop:** capture repeated client friction as future qualification, onboarding, or handoff improvements.
+6. **Integration mapping:** identify destination systems, object names, field names, external IDs, and write operations.
+7. **Feedback loop:** capture repeated client friction as future qualification, onboarding, or handoff improvements.
 
 ## Why This Matters
 
@@ -43,6 +45,7 @@ flowchart LR
   E --> G["Team handoffs"]
   E --> H["CRM recommendation"]
   E --> I["Feedback loop"]
+  H --> J["Salesforce / HubSpot / Attio / Gong / DB payloads"]
 ```
 
 ## Run It
@@ -51,6 +54,7 @@ flowchart LR
 python3 -m pytest
 python3 -m src.client_ops.cli --mode brief
 python3 -m src.client_ops.cli --mode crm
+python3 -m src.client_ops.cli --mode integrations
 ```
 
 ## Repo Structure
@@ -59,6 +63,7 @@ python3 -m src.client_ops.cli --mode crm
 - `tests/`: behavior tests for normalization, signal extraction, handoffs, and rendering.
 - `examples/`: fake client inputs and generated outputs.
 - `docs/`: architecture, sanitization notes, and reviewer guide.
+- `docs/integration-contract.md`: destination identification, object mapping, field naming, and review gates.
 
 ## How A CTO Or Engineer Should Review This
 
@@ -67,6 +72,9 @@ The main question is whether the mapping makes sense:
 - Can a terminal run take fake communication records and produce deterministic action notes?
 - Are inputs normalized before analysis?
 - Are CRM changes recommendations with evidence, not blind writes?
+- Are Salesforce, HubSpot, Attio, Gong, and database payloads mapped with clear object names and field conventions?
+- Are destination names normalized before routing?
+- Is there a stable external ID convention to prevent duplicate writes?
 - Are team handoffs explicit enough for sales, marketing, engineering, and customer success?
 - Is the feedback loop real, or just a summary?
 
@@ -82,4 +90,3 @@ This sample is intentionally small. It is meant to show how the system is built 
 - No API keys, tokens, webhook URLs, or workspace IDs.
 
 See `docs/sanitization-notes.md` for the full release boundary.
-

@@ -52,3 +52,30 @@ def render_crm_updates(analysis):
     ]
     return "\n".join(lines) + "\n"
 
+
+def render_integration_plan(plan):
+    lines = [
+        "# Integration Routing Plan",
+        "",
+        "## Naming Conventions",
+    ]
+    for key, value in plan["naming_conventions"].items():
+        lines.append(f"- `{key}`: `{value}`")
+
+    lines.extend(["", "## Planned Writes"])
+    for write in plan["writes"]:
+        lines.append(f"- `{write['destination']}` `{write['operation']}` `{write['object']}`")
+        lines.append(f"  - external_id: `{write['external_id']}`")
+        lines.append(f"  - id_field: `{write['id_field']}`")
+        lines.append(f"  - fields: {', '.join(write['payload'].keys())}")
+
+    gate = plan["review_gate"]
+    lines.extend(
+        [
+            "",
+            "## Review Gate",
+            f"- mode: `{gate['mode']}`",
+            f"- required_before_write: {', '.join(gate['required_before_write'])}",
+        ]
+    )
+    return "\n".join(lines) + "\n"
