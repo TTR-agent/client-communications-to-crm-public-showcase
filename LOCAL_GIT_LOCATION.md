@@ -5,4 +5,4 @@
 - Remote origin: `https://github.com/tyler-roessel/client-communication-crm-agent.git`
 - Branch: `main`
 - Commit at packaging start: `5d7ea86`
-- Public showcase purpose: sanitized client calls, emails, notes, actioning, team handoffs, CRM/Gong/database mapping, and feedback loops.
+- Public showcase purpose: client calls, emails, notes, actioning, team handoffs, CRM/Gong/database mapping, and feedback loops.

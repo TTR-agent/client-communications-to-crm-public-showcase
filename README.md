@@ -1,6 +1,6 @@
 # Client Communications To CRM Public Showcase
 
-This repo is a sanitized public mirror of a private AI workflow. It preserves the real workflow shape, data mapping, handoff logic, CRM recommendation pattern, and implementation lessons while replacing private client data, credentials, schemas, transcripts, and customer details with safe examples.
+This repo is a public reference version of a private AI workflow. It preserves the real workflow shape, data mapping, handoff logic, CRM recommendation pattern, and implementation lessons while using synthetic examples instead of private client data, credentials, schemas, transcripts, or customer details.
 
 ## What This Demonstrates
 
@@ -14,7 +14,7 @@ This repo is a sanitized public mirror of a private AI workflow. It preserves th
 ## Workflow
 
 1. **Intake:** collect call summaries, client emails, and internal talking notes.
-2. **Normalization:** reduce each source into a shared public-safe record.
+2. **Normalization:** reduce each source into a shared operating record.
 3. **Signal extraction:** identify pricing/proposal asks, technical blockers, proof needs, onboarding feedback, and launch/messaging needs.
 4. **Actioning:** create next steps with owner-team routing.
 5. **CRM recommendation:** suggest status changes and field updates without writing directly by default.
@@ -59,7 +59,7 @@ python3 -m src.client_ops.cli --mode integrations
 
 ## Repo Structure
 
-- `src/client_ops/`: sanitized implementation.
+- `src/client_ops/`: representative implementation.
 - `tests/`: behavior tests for normalization, signal extraction, handoffs, and rendering.
 - `examples/`: fake client inputs and generated outputs.
 - `docs/`: architecture, sanitization notes, and reviewer guide.
@@ -80,7 +80,7 @@ The main question is whether the mapping makes sense:
 
 This sample is intentionally small. It is meant to show how the system is built and how AI-assisted operations work, without exposing private company data or overcomplicating the public fork.
 
-## What Was Sanitized
+## What Was Removed For The Public Version
 
 - No real client names.
 - No real companies.
